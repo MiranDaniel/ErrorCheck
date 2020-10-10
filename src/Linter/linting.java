@@ -27,6 +27,7 @@ public class linting {
 	}
 	public static class vars{
 		static boolean tabError = false;
+		static int errors = 0;
 	}
 	
 	@SuppressWarnings("unused")
@@ -45,10 +46,12 @@ public class linting {
 		if(vars.tabError == false) {
 			System.out.println("TabSpace error detected on line: "+compileError(pos,arg));
 			vars.tabError = true;
+			vars.errors++;
 		}
 	}
 	public static void syntaxError(int pos,String arg) {
 		System.out.println("syntaxError detected on line: "+compileError(pos,arg));
+		vars.errors++;
 	}
 	
 	public static void main(String[] args) {
@@ -95,5 +98,6 @@ public class linting {
 			}
 			pos++;
 		}
+		System.out.println("\nError count: "+vars.errors);
 	}
 }
