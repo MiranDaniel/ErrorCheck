@@ -28,6 +28,8 @@ public class linting {
 	public static class vars{
 		static boolean tabError = false;
 	}
+	
+	@SuppressWarnings("unused")
 	public static String remTabSpace(String input) {
 		for(char i : input.toCharArray()) {
 			input = input.replace("    ", "");
@@ -35,15 +37,18 @@ public class linting {
 		}
 		return input;
 	}
+	public static String compileError(int pos, String arg) {
+		return "Line: "+pos+", Text: ("+remTabSpace(arg)+")";
+	}
 	
 	public static void tabSpaceError(int pos,String arg) {
 		if(vars.tabError == false) {
-			System.out.println("TabSpace error detected on line: "+pos+" ("+remTabSpace(arg)+")");
+			System.out.println("TabSpace error detected on line: "+compileError(pos,arg));
 			vars.tabError = true;
 		}
 	}
 	public static void syntaxError(int pos,String arg) {
-		System.out.println("syntaxError detected on line: "+pos+" ("+arg+")");
+		System.out.println("syntaxError detected on line: "+compileError(pos,arg));
 	}
 	public static void main(String[] args) {
 		boolean usesSpaces = false;
