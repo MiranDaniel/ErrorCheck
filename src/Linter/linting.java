@@ -50,6 +50,7 @@ public class linting {
 	public static void syntaxError(int pos,String arg) {
 		System.out.println("syntaxError detected on line: "+compileError(pos,arg));
 	}
+	
 	public static void main(String[] args) {
 		boolean usesSpaces = false;
 		boolean usesTabs = false;
