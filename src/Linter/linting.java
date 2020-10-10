@@ -28,28 +28,35 @@ public class linting {
 	public static class vars{
 		static boolean tabError = false;
 	}
+	public static String remTabSpace(String input) {
+		for(char i : input.toCharArray()) {
+			input = input.replace("    ", "");
+			input = input.replace("\t", "");
+		}
+		return input;
+	}
 	
-	
-	public static void tabSpaceError() {
+	public static void tabSpaceError(int pos,String arg) {
 		if(vars.tabError == false) {
-			System.out.println("TabSpace error detected!");
+			System.out.println("TabSpace error detected on line: "+pos+" ("+remTabSpace(arg)+")");
 			vars.tabError = true;
 		}
 	}
-	public static void syntaxError() {
-		System.out.println("syntaxError detected!");
+	public static void syntaxError(int pos,String arg) {
+		System.out.println("syntaxError detected on line: "+pos+" ("+arg+")");
 	}
 	public static void main(String[] args) {
 		boolean usesSpaces = false;
 		boolean usesTabs = false;
 		List<String> data = read();
+		int pos = 1;
 		for(String line : data) {
 			if(line.startsWith(" ")) {
 				if(usesTabs == false) {
 					usesSpaces = true;
 				}
 				else {
-					tabSpaceError();
+					tabSpaceError(pos,line);
 				}
 			}
 			else if(line.startsWith("\t")){
@@ -57,12 +64,12 @@ public class linting {
 					usesTabs = true;
 				}
 				else {
-					tabSpaceError();
+					tabSpaceError(pos,line);
 				}
 			}
 			if(line.contains("for ")) {
 				if(line.endsWith(":") == false) {
-					syntaxError();
+					syntaxError(pos,line);
 				}
 			}
 			if(line.contains("=")) {
@@ -76,10 +83,11 @@ public class linting {
 				char[] alphabet = "123456789-".toCharArray();
 				for(char key : alphabet) {
 					if(newLine.startsWith(Character.toString(key))) {
-						syntaxError();
+						syntaxError(pos,line);
 					}
 				}	
 			}
+			pos++;
 		}
 	}
 }
